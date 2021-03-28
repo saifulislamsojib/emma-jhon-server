@@ -8,19 +8,17 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const {DB_USER, DB_PASS, DB_NAME, PORT}=process.env;
+const port = process.env.PORT || 4000;
 
-const port = PORT || 4000;
-
-const uri = `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.ernz8.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ernz8.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 client.connect(err => {
-  const productsContainer = client.db(DB_NAME).collection("products");
+  const productsContainer = client.db(process.env.DB_NAME).collection("products");
 
-  const ordersContainer = client.db(DB_NAME).collection("orders");
+  const ordersContainer = client.db(process.env.DB_NAME).collection("orders");
 
-  const admin = client.db(DB_NAME).collection("admin");
+  const admin = client.db(process.env.DB_NAME).collection("admin");
 
   app.post("/addProduct", (req, res) => {
     const product = req.body;
