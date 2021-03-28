@@ -14,11 +14,11 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 client.connect(err => {
-  const productsContainer = client.db(process.env.DB_NAME).collection("products");
+  const productsContainer = client.db(`${process.env.DB_NAME}`).collection("products");
 
-  const ordersContainer = client.db(process.env.DB_NAME).collection("orders");
+  const ordersContainer = client.db(`${process.env.DB_NAME}`).collection("orders");
 
-  const admin = client.db(process.env.DB_NAME).collection("admin");
+  const admin = client.db(`${process.env.DB_NAME}`).collection("admin");
 
   app.post("/addProduct", (req, res) => {
     const product = req.body;
